@@ -1,0 +1,15 @@
+{%  extends 'sklt_sns1/main.html' %}
+
+{% load hitcount_tags %}
+
+{% block content %}
+  <h2>Posts List</h2>
+  <ul>
+    {% for post in posts %}
+        <h3 class="mt-5"><a href='#'>{{post.text}}</a></h3>
+        <p class="lead">{{post.created_date}}</p>
+        <p>{{post.slug}}</p>
+        <p>Views: {% get_hit_count for post %}</p>
+    {% endfor %}
+  </ul>
+{% endblock %}
