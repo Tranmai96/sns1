@@ -156,9 +156,16 @@ class PostMixinDetailView(object):
 
     def get_context_data(self, **kwargs):
         context = super(PostMixinDetailView, self).get_context_data(**kwargs)
-        context['post_list'] = Post.objects.all()[:5]
-        context['post_views'] = ["ajax", "detail", "detail-with-count"]
+        context['post_list'] = Post.objects.all()
+        context['post_views'] = ["detail-with-count"]
+        context['popular_posts'] = Post.objects.order_by('hit_count_generic')[:3]
+        context['latest_posts'] = Post.objects.order_by('-created_date')[:4]
+
         return context
+
+
+class IndexView(PostMixinDetailView, TemplateView):
+    template_name = 'sklt_sns1/index.html'
 
 class PostDetailView(PostMixinDetailView, HitCountDetailView):
     """
@@ -172,3 +179,13 @@ class PostCountHitDetailView(PostMixinDetailView, HitCountDetailView):
     Generic hitcount class based view that will also perform the hitcount logic.
     """
     count_hit = True
+
+
+
+class PostDetailJSONView(PostMixinDetailView, DetailView):
+    template_name = 'sklt_sns1/post_ajax.html'
+
+    @classmethod
+    def as_view(cls, **initkwargs):
+        view = super(PostDetailJSONView, cls).as_view(**initkwargs)
+        return ensure_csrf_cookie(view)
