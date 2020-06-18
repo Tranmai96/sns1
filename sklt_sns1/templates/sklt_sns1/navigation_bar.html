@@ -22,8 +22,8 @@
           </button>
           
     </form> -->
-    <form class="form-inline" action="" method="get">
-      <input  class="form-control mr-sm-2" placeholder="Search" aria-label="Search" name="keyword" type="text">
+    <form class="form-inline" action="{% url 'search_results' %}" method="get">
+      <input  class="form-control mr-sm-2" placeholder="Search" aria-label="Search" name="q" type="text">
       <button type="submit" class="btn btn-primary" >Search</button>
     </form>
   </nav>
