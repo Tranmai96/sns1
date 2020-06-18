@@ -24,9 +24,10 @@ from .forms import PostForm, CommentForm
 from .models import *
 from django.contrib import messages
 from django.db.models import Q
+from django.views.generic import ListView
 
 
-def home(request):
+def home2(request):
     # posts=Post.objects.order_by('-created_date')
     # latest_posts = []
     # for i in range(6):
@@ -37,19 +38,19 @@ def home(request):
     posts = Post.objects.order_by('-created_date')
     keyword = request.GET.get('keyword')
     latest_posts = []
-    if keyword:
-        posts1 = posts.filter(
-                 Q(text__icontains=keyword) | Q(author__name__icontains=keyword)
-               )
-        for i in posts1:
-            latest_posts.append(i)
+    # if keyword:
+    #     posts1 = posts.filter(
+    #              Q(text__icontains=keyword) | Q(author__name__icontains=keyword)
+    #            )
+    #     for i in posts1:
+    #         latest_posts.append(i)
         
-        messages.success(request, '「{}」の検索結果'.format(keyword))
-    else:
-        for i in range(6):
-            latest_posts.append(posts[i])
+    #     messages.success(request, '「{}」の検索結果'.format(keyword))
+    # else:
+    for i in posts:
+        latest_posts.append(i)
     context={'posts':posts,'latest_posts':latest_posts}
-    return render(request, 'sklt_sns1/home.html',context)
+    return render(request, 'sklt_sns1/post_list.html',context)
 
 def post_detail1(request, pk):
     post = get_object_or_404(Post, pk=pk)
@@ -114,32 +115,7 @@ def log_in_page(request):
     return HttpResponse('Log in page')
 
 
-# from django.views.generic.list import ListView
-# from hitcount.views import HitCountDetailView
-# from .models import Post
 
-# class PostListView(ListView):
-#     model = Post
-#     context_object_name = 'posts'
-#     template_name = 'post_list.html'
-
-
-# class PostDetailView(HitCountDetailView):
-#     model = Post
-#     template_name = 'post_detail.html'
-#     context_object_name = 'post'
-#     slug = 'slug'
-
-#     # slug_field = 'slug'
-#     # set to True to count the hit
-#     count_hit = True
-
-#     def get_context_data(self, **kwargs):
-#         context = super(PostDetailView, self).get_context_data(**kwargs)
-#         context.update({
-#         'popular_posts': Post.objects.order_by('-hit_count_generic__hits')[:3],
-#         })
-#         return context
 
 from django.views.decorators.csrf import ensure_csrf_cookie
 from django.views.generic import DetailView, TemplateView
@@ -189,3 +165,17 @@ class PostDetailJSONView(PostMixinDetailView, DetailView):
     def as_view(cls, **initkwargs):
         view = super(PostDetailJSONView, cls).as_view(**initkwargs)
         return ensure_csrf_cookie(view)
+
+
+
+class SearchResultsView(ListView):
+    model = Post
+    template_name = 'sklt_sns1/search_results.html'
+
+    def get_queryset(self): # new
+        query = self.request.GET.get('q')
+        # object_list = Post.objects.filter(Q(text__icontains=query) | Q(author__icontains=query))
+        context['object_list'] = Post.objects.filter(
+            Q(text__icontains=query) | Q(author__icontains=query)
+            )
+        return context
