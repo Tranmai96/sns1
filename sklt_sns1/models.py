@@ -20,7 +20,7 @@ class User(models.Model):
     kurasu = models.CharField(max_length=200, null=True)
     email = models.CharField(max_length=200, null=True)
     date_created = models.DateTimeField(auto_now_add=True, null=True)
-    slug = models.SlugField(max_length = 250, null = True, blank = True)
+    # slug = models.SlugField(max_length = 250, null = True, blank = True)
     hit_count_generic = GenericRelation(HitCount, object_id_field='object_pk',related_query_name='hit_count_generic_relation')
     def __str__(self):
         return self.name
@@ -36,17 +36,17 @@ class Post(models.Model):
     text = models.TextField()
     created_date = models.DateTimeField(default=timezone.now)
     like = models.ManyToManyField(User, related_name='like')
-    slug = models.SlugField(max_length=500, unique=True, blank=True)
+    # slug = models.SlugField(max_length=500, unique=True, blank=True)
     hit_count_generic = GenericRelation(HitCount, object_id_field='object_pk',related_query_name='hit_count_generic_relation')
 
 
-    def __str__(self):
-        return self.text
+    # def __str__(self):
+    #     return self.text
 
-    def save(self, *args, **kwargs):
-        if not self.slug:
-            self.slug = slugify(self.created_date)
-        return super(Post, self).save(*args, **kwargs)
+    # def save(self, *args, **kwargs):
+    #     if not self.slug:
+    #         self.slug = slugify(self.created_date)
+    #     return super(Post, self).save(*args, **kwargs)
     # def save(self, *args, **kwargs):
     #     self.slug = slugify(self.text)
     #     return super(Post, self).save(*args, **kwargs)
