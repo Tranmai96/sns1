@@ -168,19 +168,19 @@ class PostDetailJSONView(PostMixinDetailView, DetailView):
 
 
 
+# class SearchResultsView(ListView):
+#     model = Post
+#     template_name = 'sklt_sns1/search_results.html'
+
+#     def get_queryset(self): # new
+#         query = self.request.GET.get('q')
+#         # object_list = Post.objects.filter(Q(text__icontains=query) | Q(author__icontains=query))
+#         context['object_list'] = Post.objects.filter(
+#             Q(text__icontains=query) | Q(author__icontains=query)
+#             )
+#         return context
+
 class SearchResultsView(ListView):
-    model = Post
-    template_name = 'sklt_sns1/search_results.html'
-
-    def get_queryset(self): # new
-        query = self.request.GET.get('q')
-        # object_list = Post.objects.filter(Q(text__icontains=query) | Q(author__icontains=query))
-        context['object_list'] = Post.objects.filter(
-            Q(text__icontains=query) | Q(author__icontains=query)
-            )
-        return context
-
-class BookList(ListView):
     model = Post
     template_name = 'sklt_sns1/search_results.html'
     def get_queryset(self):

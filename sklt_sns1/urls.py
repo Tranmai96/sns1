@@ -26,7 +26,7 @@ urlpatterns = [
     path('post/<int:pk>/edit/', views.post_edit, name='post_edit'),
     #削除
     path('post/<pk>/remove/', views.post_remove, name='post_remove'),
-    path('search/', views.BookList.as_view(), name='search_results'),
+    path('search/', views.SearchResultsView.as_view(), name='search_results'),
     # url(r'^hitcount-detail-view/(?P<pk>\d+)/$',views.PostDetailView.as_view(),name="detail"),
     # url(r'^home/$', views.IndexView.as_view(), name="index"),
     url(r'^$', views.IndexView.as_view(), name="index"),
