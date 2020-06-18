@@ -3,6 +3,14 @@
 <div class="az-content az-content-dashboard">
     <div class="container-fluid">
         <div class="row">
+            <div class="col-12">
+                <br>      
+                <div class="d-flex justify-content-center">
+                <h3>ROUND へようこそ！</h3>
+                </div>
+            </div>
+        </div>
+        <div class="row">
             <div class="col-8">
                 <br>      
                 <div class="d-flex justify-content-center">
@@ -32,7 +40,42 @@
                         </div>
                     </div>   
                 {% endfor %}
-                </div>        
+                </div>
+                <br>
+                <div class="row">
+                    <div class="col-4">
+                        <div class="card bg-white border-success">
+                            <div class="card-header bg-success">
+                                <div class="d-flex align-self-center">
+                                    <div class="lh-100">
+                                        <h6 class="mb-0 text-white lh-100">困ったら・・・今日のお題：</h6>               
+                                    </div>
+                                </div> 
+                            </div>
+                            <div class="card-body">
+                                <div class="d-flex align-self-center">
+                                    <h5 class="card-title">合コンにおすすめの店</h5>
+                                </div>
+                            </div>
+                        </div>        
+                    </div>
+                    <div class = "col-8">
+                    <div class = "row">
+                        <div class="col-9">
+                            <div class="form-group">
+                                <label for="exampleFormControlTextarea1">投稿しましょう！</label>
+                                <textarea class="form-control" id="exampleFormControlTextarea1" rows="3"></textarea>
+                            </div>
+                        </div>
+                        <div class="col-3">
+                            <br>
+                            <br>
+                            <a type="button" class="btn btn-primary btn-lg" href="#">投稿</a>
+                        </div>
+                    </div>
+                    </div>                   
+                </div>  
+                
             </div>
             <div class="col-4">
                 <br>      
@@ -43,7 +86,7 @@
                     <div class="list-group">
                         {% for post in latest_posts %}
 
-                        <a href="#" class="list-group-item list-group-item-action flex-column align-items-start">
+                        <a href="{% url 'detail-with-count' post.pk %}" class="list-group-item list-group-item-action flex-column align-items-start">
                             <div class="d-flex w-100 justify-content-between">
                               <h5 class="mb-1">{{ post.author }}</h5>
                               <small>{{ post.created_date }}</small>
@@ -51,8 +94,9 @@
                             <p class="mb-1">{{post.text|truncatechars:100}}<span class="badge badge-pill badge-danger">New</span></p>
                         </a>
                         {% endfor %}
-                         
+
                     </div>
+                    
 
                 </div>
 
