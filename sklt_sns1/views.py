@@ -179,3 +179,16 @@ class SearchResultsView(ListView):
             Q(text__icontains=query) | Q(author__icontains=query)
             )
         return context
+
+class BookList(ListView):
+    model = Post
+    template_name = 'sklt_sns1/search_results.html'
+    def get_queryset(self):
+        q_word = self.request.GET.get('query')
+ 
+        if q_word:
+            object_list = Post.objects.filter(
+                Q(text__icontains=q_word) | Q(author__name__icontains=q_word))
+        else:
+            object_list = Post.objects.all()
+        return object_list
