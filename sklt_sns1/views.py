@@ -1,4 +1,4 @@
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 from django.http import HttpResponse
 from .models import *
 from hitcount.views import HitCountDetailView
@@ -146,6 +146,32 @@ from django.views.generic import DetailView, TemplateView
 
 from hitcount.views import HitCountDetailView
 
+def createPost(request):
+    log_in_user = request.user.user
+    form = PostForm(initial={'author':log_in_user})
+
+    if request.method == 'POST':
+		#print('Printing POST:', request.POST)
+	    form = PostForm(request.POST)
+	    if form.is_valid():
+		    form.save()
+		    return redirect('/')
+    context = {'form':form}
+    return render(request, 'sklt_sns1/post_form.html', context)
+
+def addComment(request):
+    log_in_user = request.user.user
+    form = CommentForm(initial={'author':log_in_user})
+
+    if request.method == 'POST':
+		#print('Printing POST:', request.POST)
+	    form = CommentForm(request.POST)
+	    if form.is_valid():
+		    form.save()
+		    return redirect('/')
+
+    context = {'form':form}
+    return render(request, 'sklt_sns1/comment_form.html', context)
 
 
 class PostMixinDetailView(object):
