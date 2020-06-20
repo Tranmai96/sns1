@@ -1,0 +1,30 @@
+{%  extends 'sklt_sns1/main.html' %}
+{% block content %} 
+
+<main role="main" class="container">
+  <div class="d-flex align-items-center p-3 my-3 text-black-50 bg-primary rounded shadow-sm">
+  
+    <div class="lh-100">
+      <h6 class="mb-0 text-white lh-100">{{ request.user }}</h6>
+      <small class="text-white">{{login_person.name}}</small>
+    </div>
+  </div>
+
+
+  <div class="my-3 p-3 bg-white rounded shadow-sm">
+    <h6 class="border-bottom border-gray pb-2 mb-0">All posts</h6>
+      {% for post in posts %}
+        <div class="content container">
+        <div class="media text-muted pt-1 pb-2">
+          <div class="post">
+            <p>{{ post.text | truncatechars:50 }}</p>
+            <p>{{ post.created_date }}</p>
+            <p><a class="read more" href="{% url 'detail' post.pk %}">>>read more</a></p>
+            <p class="media-body pb-3 mb-0 small lh-125 border-bottom border-gray"></p>
+          </div>
+        </div>
+        </div>
+      {% endfor %}
+  </div>
+</main>
+{% endblock %}

@@ -1,33 +1,78 @@
 {%  extends 'sklt_sns1/main.html' %}
 
 {% block content %}
-<div class="row">
-  <div class="col-md-12">
-    <h1>{{object.author}}</h1>
-  </div>
-
-  <div class="col-md-8">
-    <p class="lead">{{ object.text }}</p>
-  </div>
-
-
-
-  <div class="col-md-4 bg-info">
-    <h2>Hitcount Info</h2>
-    <dl class="dl-horizontal">
-      <dt>Total Hits:</dt>
-      <dd>{{ hitcount.total_hits }}</dd>
-      <dt>The unique PK is:</dt>
-      <dd>{{ hitcount.pk }}</dd>
-      <dt>Hit counted?</dt>
-      <dd id="hit-counted">
-        <i id="hit-counted-value">{{ hitcount.hit_counted }}</i>
-      </dd>
-      <dt>Hit response:</dt>
-      <dd id="hit-response">{{ hitcount.hit_message }}</dd>
-      </dd>
-    </dl>
+<br>
+<br>
+<div class="az-content az-content-dashboard">
+  <div class="container-fluid">
+    <div class="row">
+      <div class="col-8">
+        <div class="media">
+          <img class="mr-3" src="" alt="Generic placeholder image">
+          <div class="media-body">
+            <h3 class="mt-0">{{object.author}}</h3>
+            <small>{{object.created_date}}</small>
+            {{object.text}}
+          
+            <p class="media-body pb-3 mb-0 small lh-125 border-bottom border-gray"></p>
+            <!-- コメント欄 -->
+            <div class = "col-12">
+              <div class = "row">
+                  <div class="col-9">
+                      <div class="col-6">
+                        {{object}}
+                          <!-- <div class="form-group">
+                              <label for="exampleFormControlTextarea1">コメント！</label>
+                              <form method="POST" class="post-form"> -->
+                                  <!-- <button type="submit" class="save btn btn-default">Save</button> -->
+                              <!-- </form>
+                  
+                              <textarea class="form-control" id="exampleFormControlTextarea1" rows="3"></textarea>
+                          </div> -->
+                      </div>
+                  </div>
+                  <div class="col-6">
+                      <br>
+                      <br>
+                      <a type="button" class="btn btn-primary btn-lg btn-block" href="{% url 'add_comment' %}">  投稿</a>
+                  </div>
+              </div>
+            </div>          
+            <p class="media-body pb-3 mb-0 small lh-125 border-bottom border-gray"></p>
+         
+            {% for comment in object.comment.all %}
+            <div class="media mt-3">
+              <div class="media-body">
+                <h5 class="mt-0">{{comment.author}}</h5>
+                <small>{{comment.created_date}}</small>
+                <br>
+                {{ comment.text }}
+              </div>
+            </div>
+            {% endfor %}
+          </div>
+        </div>
+      </div>
+      <div class="col-4 bg-info">
+        <h2>Hitcount Info</h2>
+        <dl class="dl-horizontal">
+          <dt>Total Hits:</dt>
+          <dd>{{ hitcount.total_hits }}</dd>
+          <dt>The unique PK is:</dt>
+          <dd>{{ hitcount.pk }}</dd>
+          <dt>Hit counted?</dt>
+          <dd id="hit-counted">
+            <i id="hit-counted-value">{{ hitcount.hit_counted }}</i>
+          </dd>
+          <dt>Hit response:</dt>
+          <dd id="hit-response">{{ hitcount.hit_message }}</dd>
+          </dd>
+        </dl>
+      </div>
+    </div>
   </div>
 </div>
+
+<!-- model -->
 
 {%endblock%}

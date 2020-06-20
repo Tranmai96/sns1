@@ -10,11 +10,14 @@ from django.contrib.contenttypes.fields import GenericRelation
 from django.template.defaultfilters import slugify
 from sns1.utils import unique_slug_generator
 from django.db.models.signals import pre_save
+from django.contrib.auth.models import User
+
 # Create your models here.
 
 
 
 class User(models.Model):
+    user = models.OneToOneField(User, null=True, on_delete=models.CASCADE)
     name = models.CharField(max_length=200, null=True)
     id_num = models.FloatField()
     kurasu = models.CharField(max_length=200, null=True)
@@ -32,7 +35,7 @@ class User(models.Model):
 
 
 class Post(models.Model):
-    author = models.ForeignKey('User', on_delete=models.CASCADE)
+    author = models.ForeignKey('User', on_delete=models.CASCADE)    
     text = models.TextField()
     created_date = models.DateTimeField(default=timezone.now)
     like = models.ManyToManyField(User, related_name='like')
@@ -40,16 +43,6 @@ class Post(models.Model):
     hit_count_generic = GenericRelation(HitCount, object_id_field='object_pk',related_query_name='hit_count_generic_relation')
 
 
-    # def __str__(self):
-    #     return self.text
-
-    # def save(self, *args, **kwargs):
-    #     if not self.slug:
-    #         self.slug = slugify(self.created_date)
-    #     return super(Post, self).save(*args, **kwargs)
-    # def save(self, *args, **kwargs):
-    #     self.slug = slugify(self.text)
-    #     return super(Post, self).save(*args, **kwargs)
 
 class Ine(models.Model):
     ip_address = models.CharField('IPアドレス', max_length=20)

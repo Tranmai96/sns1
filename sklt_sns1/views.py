@@ -25,9 +25,14 @@ from .models import *
 from django.contrib import messages
 from django.db.models import Q
 from django.views.generic import ListView
+from django.urls import reverse
+from django.views.generic import (
+    CreateView, DetailView, FormView, ListView, TemplateView
+)
 
 
-def home2(request):
+
+# def home2(request):
     # posts=Post.objects.order_by('-created_date')
     # latest_posts = []
     # for i in range(6):
@@ -35,9 +40,9 @@ def home2(request):
 
     # context={'posts':posts,'latest_posts':latest_posts}
     # return render(request, 'sklt_sns1/home.html',context)
-    posts = Post.objects.order_by('-created_date')
-    keyword = request.GET.get('keyword')
-    latest_posts = []
+    # posts = Post.objects.order_by('-created_date')
+    # keyword = request.GET.get('keyword')
+    # latest_posts = []
     # if keyword:
     #     posts1 = posts.filter(
     #              Q(text__icontains=keyword) | Q(author__name__icontains=keyword)
@@ -47,15 +52,29 @@ def home2(request):
         
     #     messages.success(request, '「{}」の検索結果'.format(keyword))
     # else:
-    for i in posts:
-        latest_posts.append(i)
-    context={'posts':posts,'latest_posts':latest_posts}
-    return render(request, 'sklt_sns1/post_list.html',context)
+    # for i in posts:
+    #     latest_posts.append(i)
+    # context={'posts':posts,'latest_posts':latest_posts}
+    # return render(request, 'sklt_sns1/post_list.html',context)
 
 def post_detail1(request, pk):
     post = get_object_or_404(Post, pk=pk)
 
     return render(request, 'sklt_sns1/post_detail1.html', {'post': post})
+
+
+def post_new(request):
+    if request.method == "POST":
+        form = PostForm(request.POST)
+        if form.is_valid():
+            post = form.save(commit=False)
+            post.author = request.user
+            post.published_date = timezone.now()
+            post.save()
+        return redirect('home2')
+    else:
+        form = PostForm()
+    return render(request, 'sklt_sns1/post_edit.html', {'form': form})
 
 #投稿の編集ページ
 @login_required
@@ -105,8 +124,13 @@ def good(request, pk):
     return redirect('post_detail1', pk=post.pk)
 
 
-def profile(request):
-    return HttpResponse('Profile')
+
+def my_profile(request):
+    posts = request.user.user.post_set.all()
+    context={'posts':posts}
+    return render(request, 'sklt_sns1/my_profile.html',context)
+
+
 
 def search_result(request):
     return HttpResponse('Search result')
@@ -132,16 +156,31 @@ class PostMixinDetailView(object):
 
     def get_context_data(self, **kwargs):
         context = super(PostMixinDetailView, self).get_context_data(**kwargs)
-        context['post_list'] = Post.objects.all()
+        context['post_list'] = Post.objects.order_by('-created_date')
         context['post_views'] = ["detail-with-count"]
         context['popular_posts'] = Post.objects.order_by('hit_count_generic')[:3]
         context['latest_posts'] = Post.objects.order_by('-created_date')[:4]
 
         return context
 
+#RELATED SET EXAMPLE
+# class ParentModel(models.Model):
+# 	name = models.CharField(max_length=200, null=True)
 
+# class ChildModel(models.Model):
+# 	parent = models.ForeignKey(ParentModel)
+# 	name = models.CharField(max_length=200, null=True)
+
+# parent = ParentModel.objects.first()
+#Returns all child models related to parent
+# parent.childmodel_set.all()
 class IndexView(PostMixinDetailView, TemplateView):
     template_name = 'sklt_sns1/index.html'
+
+
+
+class PostList(PostMixinDetailView, TemplateView):
+    template_name = 'sklt_sns1/post_list.html'
 
 class PostDetailView(PostMixinDetailView, HitCountDetailView):
     """
@@ -168,17 +207,6 @@ class PostDetailJSONView(PostMixinDetailView, DetailView):
 
 
 
-# class SearchResultsView(ListView):
-#     model = Post
-#     template_name = 'sklt_sns1/search_results.html'
-
-#     def get_queryset(self): # new
-#         query = self.request.GET.get('q')
-#         # object_list = Post.objects.filter(Q(text__icontains=query) | Q(author__icontains=query))
-#         context['object_list'] = Post.objects.filter(
-#             Q(text__icontains=query) | Q(author__icontains=query)
-#             )
-#         return context
 
 class SearchResultsView(ListView):
     model = Post
@@ -192,3 +220,25 @@ class SearchResultsView(ListView):
         else:
             object_list = Post.objects.all()
         return object_list
+
+# class PostCreateView(CreateView):
+#     """
+#     Only for creating a new publisher. Adding books to it is done in the
+#     PublisherBooksUpdateView().
+#     """
+#     model = User
+#     template_name = 'sklt/post_create.html'
+#     fields = ['name',]
+
+#     def form_valid(self, form):
+
+#         messages.add_message(
+#             self.request,
+#             messages.SUCCESS,
+#             'The publisher was added.'
+#         )
+
+#         return super().form_valid(form)
+
+
+

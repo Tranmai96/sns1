@@ -8,7 +8,7 @@ from . import views
 admin.autodiscover()
 
 urlpatterns = [
-    path('post_list', views.home2, name='home2'),
+    # path('post_list', views.home2, name='home2'),
     # path('post_detail',views.post_detail),
     # path('profile',views.profile),
     # path('search_result',views.search_result),
@@ -20,8 +20,10 @@ urlpatterns = [
     path('post_detail1/<int:pk>/', views.post_detail1, name='post_detail1'),
     #コメント投稿
     path('post_detail/<int:pk>/comment/', views.add_comment_to_post, name='add_comment_to_post'),
+
     #いいね
     path('good/<int:pk>', views.good, name='good'),
+    path('my_profile/',views.my_profile, name='my_profile'),
     #編集
     path('post/<int:pk>/edit/', views.post_edit, name='post_edit'),
     #削除
@@ -29,7 +31,11 @@ urlpatterns = [
     path('search/', views.SearchResultsView.as_view(), name='search_results'),
     # url(r'^hitcount-detail-view/(?P<pk>\d+)/$',views.PostDetailView.as_view(),name="detail"),
     # url(r'^home/$', views.IndexView.as_view(), name="index"),
+    path('create_post/',views.createPost,name="create_post"),
+    path('add_comment/', views.addComment, name="add_comment"),
     url(r'^$', views.IndexView.as_view(), name="index"),
+    url(r'^post_list/$', views.PostList.as_view(), name="home2"),
+
 
 
     url(r'^generic-detail-view-ajax/(?P<pk>\d+)/$',
