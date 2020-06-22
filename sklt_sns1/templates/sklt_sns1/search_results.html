@@ -1,13 +1,12 @@
 {% extends 'sklt_sns1/main.html' %}
 {% block content %} 
-<h1>Search Results</h1>
 
 <div class="album py-5 bg-light">
   <div class="row">
     <div class="col-12">
         <br>      
         <div class="d-flex justify-content-center">
-        <h3>検索結果-Search Result</h3>
+        <h3>{{request.GET.query}}の検索結果</h3>
         </div>
     </div>
   </div>
@@ -15,8 +14,8 @@
       {% for i in object_list %}
 
       <div class="col-md-4">
-      <div class="card text-white bg-info mb-4" >
-          <div class="card-header bg-primary text-dark">
+      <div class="card text-dark bg-white border-info mb-4" >
+          <div class="card-header bg-info text-white">
               <div class="d-flex align-items-center p-3 my-3 text-white-50 bg-purple rounded box-shadow">
 
                   <img class="mr-3" src="https://getbootstrap.com/docs/4.0/assets/brand/bootstrap-outline.svg" alt="" width="48" height="48">

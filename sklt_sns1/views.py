@@ -185,7 +185,7 @@ class PostMixinDetailView(object):
         context['post_list'] = Post.objects.order_by('-created_date')
         context['post_views'] = ["detail-with-count"]
         context['popular_posts'] = Post.objects.order_by('hit_count_generic')[:3]
-        context['latest_posts'] = Post.objects.order_by('-created_date')[:4]
+        context['latest_posts'] = Post.objects.order_by('-created_date')[:5]
 
         return context
 

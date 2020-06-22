@@ -10,11 +10,11 @@
         </li>
         <li class="nav-item active">
           <a class="nav-link" href="{% url 'my_profile' %}">My Page</a>
-        </li>
-  
-        
+        </li>      
       </ul>
     </div>
+    <p class="text-white">Hello,{{request.user.user}}</a>
+
     <!-- <form class="form-inline">
         <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search">
         <button type="button" class="btn btn-primary" data-toggle="button" aria-pressed="false">
@@ -26,4 +26,5 @@
       <input  class="form-control mr-sm-2" placeholder="Search" aria-label="Search" name="query" value="{{ request.GET.query }}" type="text">
       <button type="submit" class="btn btn-primary" >Search</button>
     </form>
+
   </nav>

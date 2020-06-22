@@ -6,20 +6,20 @@
 <div class="az-content az-content-dashboard">
   <div class="container-fluid">
     <div class="row">
+      <div class="col-2"></div>
       <div class="col-8">
         <div class="media">
-          <img class="mr-3" src="" alt="Generic placeholder image">
           <div class="media-body">
             <h3 class="mt-0">{{object.author}}</h3>
             <small>{{object.created_date}}</small>
-            {{object.text}}
+            <p>{{object.text}}</p>
           
             <p class="media-body pb-3 mb-0 small lh-125 border-bottom border-gray"></p>
             <!-- コメント欄 -->
             <div class = "col-12">
               <div class = "row">
                   <div class="col-9">
-                      <div class="col-6">
+                      <div class="col-6 text-white">
                         {{object}}
                           <!-- <div class="form-group">
                               <label for="exampleFormControlTextarea1">コメント！</label>
@@ -34,7 +34,7 @@
                   <div class="col-6">
                       <br>
                       <br>
-                      <a type="button" class="btn btn-primary btn-lg btn-block" href="{% url 'add_comment' %}">  投稿</a>
+                      <a type="button" class="btn btn-primary btn-lg btn-block" href="{% url 'add_comment' %}">コメントする</a>
                   </div>
               </div>
             </div>          
@@ -53,7 +53,8 @@
           </div>
         </div>
       </div>
-      <div class="col-4 bg-info">
+      <div class="col-2"></div>
+      <!-- <div class="col-4 bg-info">
         <h2>Hitcount Info</h2>
         <dl class="dl-horizontal">
           <dt>Total Hits:</dt>
@@ -68,7 +69,7 @@
           <dd id="hit-response">{{ hitcount.hit_message }}</dd>
           </dd>
         </dl>
-      </div>
+      </div> -->
     </div>
   </div>
 </div>
